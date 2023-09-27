@@ -98,28 +98,17 @@ services:
   #     KSQL_KSQL_HIDDEN_TOPICS: '^_.*'
 
 # Other systems
-  sqlserver-master:
-    image: mcr.microsoft.com/mssql/server:latest
-    container_name: sqlServer-master
-    environment:
-            SA_PASSWORD: "12345"
-            ACCEPT_EULA: "Y"
-            MSSQL_AGENT_ENABLED: "true"
-    ports:
-      - "5433:1433"
-    volumes:
-      - ./sqlserver:/var/opt/mssql/data
-
-  # mongo-master:
-  #   image: mongo
-  #   container_name: mongo-master
-  #   ports:
-  #     - "27017:27017"
+  # sqlserver-master:
+  #   image: mcr.microsoft.com/mssql/server:latest
+  #   container_name: sqlServer-master
   #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: admin 
-  #     MONGO_INITDB_ROOT_PASSWORD: admin
+  #           SA_PASSWORD: "12345"
+  #           ACCEPT_EULA: "Y"
+  #           MSSQL_AGENT_ENABLED: "true"
+  #   ports:
+  #     - "5433:1433"
   #   volumes:
-  #     - ./mongo-master:/data/db
+  #     - ./sqlserver:/var/opt/mssql/data
 
   mongo-slade:
     image: mongo
@@ -132,6 +121,17 @@ services:
     volumes:
       - ./mongo-slade:/data/db
 
+
+  mongo-master:
+    image: mongo
+    container_name: mongo-master
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin 
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - ./mongo-master:/data/db
   kafkacat:
     image: edenhill/kafkacat:1.6.0
     container_name: kafkacat
